@@ -1,0 +1,7 @@
+/usr/src/uws/build/CMakeFiles/install/strip.dir
+/usr/src/uws/build/CMakeFiles/edit_cache.dir
+/usr/src/uws/build/CMakeFiles/uws.dir
+/usr/src/uws/build/CMakeFiles/list_install_components.dir
+/usr/src/uws/build/CMakeFiles/install/local.dir
+/usr/src/uws/build/CMakeFiles/rebuild_cache.dir
+/usr/src/uws/build/CMakeFiles/install.dir

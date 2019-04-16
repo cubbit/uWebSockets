@@ -1,0 +1,72 @@
+# Setting requirements
+cmake_minimum_required(VERSION 3.9.2)
+include(ExternalProject)
+include(GNUInstallDirs)
+
+set(CMAKE_CXX_STANDARD 17)
+
+# Project settings
+set(PROJECT_NAME uws)
+project(${PROJECT_NAME} CXX C)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+# Dependencies
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+find_package(LibUV REQUIRED)
+find_package(ZLIB REQUIRED)
+find_package(OpenSSL REQUIRED)
+
+set(HEADERS 
+    src/App.h
+    src/AsyncSocket.h
+    src/AsyncSocketData.h
+    src/HttpContext.h
+    src/HttpContextData.h
+    src/HttpParser.h
+    src/HttpResponse.h
+    src/HttpResponseData.h
+    src/HttpRouter.h
+    src/Loop.h
+    src/LoopData.h
+    src/PerMessageDeflate.h
+    src/TopicTree.h
+    src/Utilities.h
+    src/WebSocket.h
+    src/WebSocketContext.h
+    src/WebSocketContextData.h
+    src/WebSocketData.h
+    src/WebSocketExtensions.h
+    src/WebSocketProtocol.h
+    src/libwshandshake.hpp
+    src/f2/function2.hpp
+)
+
+file(GLOB_RECURSE USOCKETS_SOURCES "${PROJECT_SOURCE_DIR}/uSockets/*.c")
+
+add_library(${PROJECT_NAME} STATIC ${USOCKETS_SOURCES})
+include_directories(${PROJECT_NAME} PUBLIC src)
+include_directories(${PROJECT_NAME} PRIVATE 
+    uSockets/src
+    ${LibUV_INCLUDE_DIRS}
+    ${ZLIB_INCLUDE_DIRS}
+    ${OPENSSL_INCLUDE_DIR}
+)
+
+target_link_libraries(${PROJECT_NAME} 
+    Threads::Threads
+    ${LibUV_LIBRARIES}
+    ${ZLIB_LIBRARIES}
+    ${OpenSSL_LIBRARIES}
+)
+
+# Install
+install(TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}-targets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION  ${CMAKE_INSTALL_LIBDIR}
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+install(FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

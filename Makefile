@@ -23,3 +23,7 @@ examples:
 	clang++ -DLIBUS_NO_SSL -DUWS_NO_ZLIB -flto -O3 -c -std=c++17 -Isrc -IuSockets/src examples/EchoServerThreaded.cpp
 	clang++ -lpthread -flto -O3 -s *.o -o EchoServerThreaded
 	rm *.o
+
+development: 
+	docker build -t uws:dev .
+	docker run -it --rm --name uws_dev --rm -v $(shell pwd):/usr/src/uws uws:dev
