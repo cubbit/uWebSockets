@@ -18,7 +18,7 @@ find_path(LibUV_INCLUDE_DIRS
 )
 
 find_library(LibUV_LIBRARIES
-    NAMES libuv.a
+    NAMES libuv.a libuv_a.a
     PATH_SUFFIXES lib
     PATHS ${LibUV_SEARCH_PATHS}
     HINTS ${LibUV_ROOT_DIR}
